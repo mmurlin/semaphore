@@ -36,15 +36,9 @@ X()
     }
 }
 
-E() // Calls X() while A ^= 1
+E()
 {
-    A||X(x=0,g=J),x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1]
-
-    if (A^=1)
-    {
-	E();
-	J += W;
-    }
+    A||X(x=0,g=J),x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1],(A^=1)&&(E(),J+=W);
 }
 
 l() // Calls E() while q.
@@ -108,27 +102,33 @@ R() // Writes a row of characters.
     }
 }
 
-O() // Writes characters to screen for a given user input.
+O()
 {
     r[2] = 0;
     R();
     j();
 
-    r[1] -= q;
-    g += q;
-    O();
+    if (r[1] -= q)
+    {
+	g += q;
+	O();
+    }
 }
 
 C() // Gets user input and sets up input representation, then writes to screen.
 {
     if (gets(K[1]))
     {
-	C((B(g=K[2]),*r=!(!*r&&(*g++=0)),(*r)[r]=g-K[2],g=K[2]));
+	J = K[1];
+
+	B(g=K[2]),*r=!(!*r&&(*g++=0)),(*r)[r]=g-K[2],g=K[2];
 
 	if (r[1])
 	{
 	    O();
 	}
+
+	C();
     }
 }
 
