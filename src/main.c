@@ -23,116 +23,116 @@ char D;
 
 X()
 {
-    r[0] = ' ';
-    r[1] = x + 1 + Y;
-    r[2] = *Q + 2;
-    r[3] = M[1-(x&1)][1];
+	r[0] = ' ';
+	r[1] = x + 1 + Y;
+	r[2] = *Q + 2;
+	r[3] = M[1-(x&1)][1];
 
-    *g++ = ((((x&7)-1)>>1)-1) ? *r : r[x>>3];
+	*g++ = ((((x&7)-1)>>1)-1) ? *r : r[x>>3];
 
-    if (++x < r[0])
-    {
-	X();
-    }
+	if (++x < r[0])
+	{
+		X();
+	}
 }
 
 E()
 {
-    A||X(x=0,g=J),x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1],(A^=1)&&(E(),J+=W);
+	A||X(x=0,g=J),x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1],(A^=1)&&(E(),J+=W);
 }
 
 l() // Calls E() while q.
 {
-    --q;
-    E();
+	--q;
+	E();
 
-    if (q)
-    {
-	l();
-    }
+	if (q)
+	{
+		l();
+	}
 }
 
 B() // Likely sets up each flagman
 {
-    *J&&B((D=*J,Q[2]<D&&D<k[1]&&(*g++=1),!(D-W&&D-9&&D-10&&D-13)&&(!*r&&(*g++=0),*r=1)||64<D&&D<91&&(*r=0,*g++=D-63)||D>=97&&D<123&&(*r=0,*g++=D-95)||!(D-k[3])&&(*r=0,*g++=12)||D>k[3]&&D<=k[1]-1&&(*r=0,*g++=D-47),J++));
+	*J&&B((D=*J,Q[2]<D&&D<k[1]&&(*g++=1),!(D-W&&D-9&&D-10&&D-13)&&(!*r&&(*g++=0),*r=1)||64<D&&D<91&&(*r=0,*g++=D-63)||D>=97&&D<123&&(*r=0,*g++=D-95)||!(D-k[3])&&(*r=0,*g++=12)||D>k[3]&&D<=k[1]-1&&(*r=0,*g++=D-47),J++));
 }
 
 j() // Writes a single character.
 {
-    putchar(A);
+	putchar(A);
 }
 
 b() // Writes each character for a given flagman.
 {
-    A = K[0][D*W+r[2]*Y+x];
-    j();
+	A = K[0][D*W+r[2]*Y+x];
+	j();
 
-    if (++x < Y)
-    {
-	b();
-    }
+	if (++x < Y)
+	{
+		b();
+	}
 }
 
 t() // Prints a row of characters for a flagman.
 {
-    D = q[g];
-    x = 0;
-    b();
+	D = q[g];
+	x = 0;
+	b();
 
-    A = ' ';
-    j();
+	A = ' ';
+	j();
 
-    if (++q < (r[1] < Y ? r[1] : Y))
-    {
-	t();
-    }
+	if (++q < (r[1] < Y ? r[1] : Y))
+	{
+		t();
+	}
 }
 
 R() // Writes a row of characters.
 {
-    q = 0;
-    t();
+	q = 0;
+	t();
 
-    A = '\n';
-    j();
+	A = '\n';
+	j();
 
-    if (++r[2] < N)
-    {
-	R();
-    }
+	if (++r[2] < N)
+	{
+		R();
+	}
 }
 
 O()
 {
-    r[2] = 0;
-    R();
-    j();
+	r[2] = 0;
+	R();
+	j();
 
-    if (r[1] -= q)
-    {
-	g += q;
-	O();
-    }
+	if (r[1] -= q)
+	{
+		g += q;
+		O();
+	}
 }
 
 C() // Gets user input and sets up input representation, then writes to screen.
 {
-    if (gets(K[1]))
-    {
-	J = K[1];
-
-	B(g=K[2]),*r=!(!*r&&(*g++=0)),(*r)[r]=g-K[2],g=K[2];
-
-	if (r[1])
+	if (gets(K[1]))
 	{
-	    O();
-	}
+		J = K[1];
 
-	C();
-    }
+		B(g=K[2]),*r=!(!*r&&(*g++=0)),(*r)[r]=g-K[2],g=K[2];
+
+		if (r[1])
+		{
+			O();
+		}
+
+		C();
+	}
 }
 
 int main()
 {
-    C((l((J=(A=0)[K],A[M]=(F=(k=(M[!A]=(Q=T+(q=(Y=(W=32)-(N=4))))+N)+2)+7)+7)),Y=N<<(*r=!-A)));
+	C((l((J=(A=0)[K],A[M]=(F=(k=(M[!A]=(Q=T+(q=(Y=(W=32)-(N=4))))+N)+2)+7)+7)),Y=N<<(*r=!-A)));
 }
