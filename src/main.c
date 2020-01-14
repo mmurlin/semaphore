@@ -121,7 +121,19 @@ C() // Gets user input and sets up input representation, then writes to screen.
 	{
 		J = K[1];
 
-		B(g=K[2]),*r=!(!*r&&(*g++=0)),(*r)[r]=g-K[2],g=K[2];
+		g = K[2];
+		B();
+
+		if (!r[0])
+		{
+			*g++ = 0;
+		}
+
+		r[0] = 1;
+
+		r[0][r] = g - K[2];
+
+		g = K[2];
 
 		if (r[1])
 		{
