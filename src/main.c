@@ -21,7 +21,7 @@ char *k;
 char q;
 char D;
 
-X()
+void X()
 {
 	r[0] = ' ';
 	r[1] = x + 1 + Y;
@@ -36,12 +36,19 @@ X()
 	}
 }
 
-E()
+void E()
 {
-	A||X(x=0,g=J),x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1],(A^=1)&&(E(),J+=W);
+	if (!A)
+	{
+		x = 0;
+		g = J;
+		X();
+	}
+
+	x=7&(*T>>A*3),J[(x[F]-W-x)^A*7]=Q[x&3]^A*(*M)[2+(x&1)],g=J+((x[k]-W)^A*7)-A,g[1]=(*M)[*g=M[T+=A,1][x&1],x&1],(A^=1)&&(E(),J+=W);
 }
 
-l() // Calls E() while q.
+void l() // Calls E() while q.
 {
 	--q;
 	E();
@@ -52,17 +59,22 @@ l() // Calls E() while q.
 	}
 }
 
-B() // Likely sets up each flagman
+void B() // Likely sets up each flagman
 {
-	*J&&B((D=*J,Q[2]<D&&D<k[1]&&(*g++=1),!(D-W&&D-9&&D-10&&D-13)&&(!*r&&(*g++=0),*r=1)||64<D&&D<91&&(*r=0,*g++=D-63)||D>=97&&D<123&&(*r=0,*g++=D-95)||!(D-k[3])&&(*r=0,*g++=12)||D>k[3]&&D<=k[1]-1&&(*r=0,*g++=D-47),J++));
+	if (*J)
+	{
+		D=*J,Q[2]<D&&D<k[1]&&(*g++=1),!(D-W&&D-9&&D-10&&D-13)&&(!*r&&(*g++=0),*r=1)||64<D&&D<91&&(*r=0,*g++=D-63)||D>=97&&D<123&&(*r=0,*g++=D-95)||!(D-k[3])&&(*r=0,*g++=12)||D>k[3]&&D<=k[1]-1&&(*r=0,*g++=D-47),J++;
+		B();
+	}
+
 }
 
-j() // Writes a single character.
+void j() // Writes a single character.
 {
 	putchar(A);
 }
 
-b() // Writes each character for a given flagman.
+void b() // Writes each character for a given flagman.
 {
 	A = K[0][D*W+r[2]*Y+x];
 	j();
@@ -73,7 +85,7 @@ b() // Writes each character for a given flagman.
 	}
 }
 
-t() // Prints a row of characters for a flagman.
+void t() // Prints a row of characters for a flagman.
 {
 	D = q[g];
 	x = 0;
@@ -88,7 +100,7 @@ t() // Prints a row of characters for a flagman.
 	}
 }
 
-R() // Writes a row of characters.
+void R() // Writes a row of characters.
 {
 	q = 0;
 	t();
@@ -102,7 +114,7 @@ R() // Writes a row of characters.
 	}
 }
 
-O()
+void O()
 {
 	r[2] = 0;
 	R();
@@ -115,7 +127,7 @@ O()
 	}
 }
 
-C() // Gets user input and sets up input representation, then writes to screen.
+void C() // Gets user input and sets up input representation, then writes to screen.
 {
 	if (gets(K[1]))
 	{
