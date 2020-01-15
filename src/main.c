@@ -80,7 +80,6 @@ void B() // Likely sets up each flagman
 		J++;
 		B();
 	}
-
 }
 
 void j() // Writes a single character.
@@ -172,5 +171,20 @@ void C() // Gets user input and sets up input representation, then writes to scr
 
 int main()
 {
-	C((l((J=(A=0)[K],A[M]=(F=(k=(M[!A]=(Q=T+(q=(Y=(W=32)-(N=4))))+N)+2)+7)+7)),Y=N<<(*r=!-A)));
+	A = 0;
+	J = K[0];
+	W = 32;
+	N = 4;
+	Y = W - N;
+	q = Y;
+	Q = T + q;
+	M[1] = Q + N;
+	k = M[1] + 2;
+	F = k + 7;
+	M[0] = F + 7;
+	l();
+
+	r[0] = 1;
+	Y = N << 1;
+	C();
 }
