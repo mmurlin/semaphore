@@ -76,7 +76,37 @@ void B() // Likely sets up each flagman
 	if (*J)
 	{
 		D = *J;
-		Q[2]<D&&D<k[1]&&(*g++=1),!(D-W&&D-9&&D-10&&D-13)&&(!*r&&(*g++=0),*r=1)||64<D&&D<91&&(*r=0,*g++=D-63)||D>=97&&D<123&&(*r=0,*g++=D-95)||!(D-k[3])&&(*r=0,*g++=12)||D>k[3]&&D<=k[1]-1&&(*r=0,*g++=D-47);
+
+		if (D >= '0' && D <= '9' && (*g++=1),!(D-W&&D-9&&D-10&&D-13))
+		{
+			if (!*r)
+			{
+				*g++ = 0;
+				*r = 1;
+			}
+		}
+
+		if (D >= 'A' && D <= 'Z')
+		{
+			*r=0;
+			*g++ = D - ('A'-2);
+		}
+		else if (D >= 'a' && D <= 'z')
+		{
+			*r = 0;
+			*g++ = D - ('a'-2);
+		}
+		else if (D == '0')
+		{
+			*r = 0;
+			*g++ = 12;
+		}
+		else if (D >= '1' && D <= '9')
+		{
+			*r = 0;
+			*g++ = D - ('1'-2);
+		}
+
 		J++;
 		B();
 	}
@@ -156,7 +186,7 @@ void C() // Gets user input and sets up input representation, then writes to scr
 
 		r[0] = 1;
 
-		r[0][r] = g - K[2];
+		r[1] = g - K[2];
 
 		g = K[2];
 
