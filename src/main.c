@@ -160,31 +160,26 @@ void writeSemaphores()
 	}
 }
 
-void C() // Gets user input and sets up input representation, then writes to screen.
+void writeAsSemaphores(char input[80])
 {
-	if (gets(K[1]))
+	J = input;
+
+	g = K[2];
+	parseInput();
+	if (!r[0])
 	{
-		J = K[1];
+		*g++ = 0;
+	}
+	r[0] = 1;
 
-		g = K[2];
-		parseInput();
-		if (!r[0])
-		{
-			*g++ = 0;
-		}
-		r[0] = 1;
-
-		remainingSemaphores = g - K[2];
+	remainingSemaphores = g - K[2];
 
 
-		g = K[2];
+	g = K[2];
 
-		if (remainingSemaphores)
-		{
-			writeSemaphores();
-		}
-
-		C();
+	if (remainingSemaphores)
+	{
+		writeSemaphores();
 	}
 }
 
@@ -205,5 +200,10 @@ int main()
 	r[0] = 1;
 
 	// Everything until here is just initial setup.
-	C();
+	char input[80];
+	while (1)
+	{
+		fgets(input, 80, stdin);
+		writeAsSemaphores(input);
+	}
 }
