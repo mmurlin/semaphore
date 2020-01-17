@@ -23,16 +23,15 @@ char remainingSemaphores;
 
 void X()
 {
-	r[0] = ' ';
-	r[1] = x + 1 + Y;
-	r[2] = *Q + 2;
-	r[3] = M[1-(x&1)][1];
-
-	*g++ = ((((x&7)-1)>>1)-1) ? *r : r[x>>3];
-
-	if (++x < r[0])
+	while (x < ' ')
 	{
-		X();
+		r[0] = ' ';
+		r[1] = x + 1 + Y;
+		r[2] = *Q + 2;
+		r[3] = M[1-(x&1)][1];
+
+		*g++ = ((((x&7)-1)>>1)-1) ? ' ' : r[x>>3];
+		++x;
 	}
 }
 
@@ -70,7 +69,7 @@ void l()
 
 void parseInput()
 {
-	if (*J)
+	while (*J)
 	{
 		D = *J;
 
@@ -85,7 +84,7 @@ void parseInput()
 
 		if (D >= 'A' && D <= 'Z')
 		{
-			*r=0;
+			*r = 0;
 			*g++ = D - ('A'-2);
 		}
 		else if (D >= 'a' && D <= 'z')
@@ -105,7 +104,6 @@ void parseInput()
 		}
 
 		J++;
-		parseInput();
 	}
 }
 
@@ -124,39 +122,38 @@ void writeSegmentChars(char row)
 
 void writeRowSegments(char row)
 {
-	D = q[g];
-	writeSegmentChars(row);
-
-	putchar(' ');
-
-	if (++q < (remainingSemaphores < WIDTH ? remainingSemaphores : WIDTH))
+	while (q < (remainingSemaphores < WIDTH ? remainingSemaphores : WIDTH))
 	{
-		writeRowSegments(row);
+		D = g[q];
+		writeSegmentChars(row);
+
+		putchar(' ');
+		++q;
 	}
 }
 
 void writeRows(char row)
 {
-	q = 0;
-	writeRowSegments(row);
-
-	putchar('\n');
-
-	if (++row < HEIGHT)
+	while (row < HEIGHT)
 	{
-		writeRows(row);
+		q = 0;
+		writeRowSegments(row);
+
+		putchar('\n');
+		++row;
 	}
 }
 
 void writeSemaphores()
 {
-	writeRows(0);
-	putchar('\n');
-
-	if (remainingSemaphores -= q)
+	while (remainingSemaphores)
 	{
+		writeRows(0);
+		putchar('\n');
+
+		// TODO
+		remainingSemaphores -= q;
 		g += q;
-		writeSemaphores();
 	}
 }
 
@@ -166,14 +163,8 @@ void writeAsSemaphores(char input[80])
 
 	g = K[2];
 	parseInput();
-	if (!r[0])
-	{
-		*g++ = 0;
-	}
-	r[0] = 1;
 
 	remainingSemaphores = g - K[2];
-
 
 	g = K[2];
 
@@ -196,8 +187,6 @@ int main()
 	F = k + 7;
 	M[0] = F + 7;
 	l();
-
-	r[0] = 1;
 
 	// Everything until here is just initial setup.
 	char input[80];
