@@ -61,10 +61,10 @@ void E()
 
 void l()
 {
-	while (--q)
+	do
 	{
 		E();
-	}
+	} while (--q);
 }
 
 void parseInput()
@@ -109,8 +109,6 @@ void parseInput()
 
 void writeSegmentChars(char row)
 {
-	char i = 0;
-
 	for (char i = 0; i < WIDTH; ++i)
 	{
 		putchar(K[0][D * W +		// Relevant semaphore representation
