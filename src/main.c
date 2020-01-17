@@ -1,8 +1,7 @@
 #include <stdio.h>
 
-// Observations:
-//  a 'flagman' is at most 4 characters high (N = 4), and 8 wide (Y = 8).
-//  all sequences (terminated with newline or space in input) end with the same flag position
+#define HEIGHT 4
+#define WIDTH  8
 
 char *T="IeJKLMaYQCE]jbZRskc[SldU^V\\X\\|/_<[<:90!\"$434-./2>]s";
 char K[3][1000];
@@ -13,13 +12,14 @@ char *M[2];
 char *J;
 char r[4];
 char *g;
-char N;
 char Y;
 char *Q;
 char W;
 char *k;
 char q;
 char D;
+
+char remainingSemaphores;
 
 void X()
 {
@@ -60,18 +60,15 @@ void E()
 	}
 }
 
-void l() // Calls E() while q.
+void l()
 {
-	--q;
-	E();
-
-	if (q)
+	while (--q)
 	{
-		l();
+		E();
 	}
 }
 
-void B() // Likely sets up each flagman
+void parseInput()
 {
 	if (*J)
 	{
@@ -108,58 +105,58 @@ void B() // Likely sets up each flagman
 		}
 
 		J++;
-		B();
+		parseInput();
 	}
 }
 
-void b() // Writes each character for a given flagman.
+void writeSegmentChars(char row)
 {
-	A = K[0][D*W+r[2]*Y+x];
-	putchar(A);
+	char i = 0;
 
-	if (++x < Y)
+	for (char i = 0; i < WIDTH; ++i)
 	{
-		b();
+		putchar(K[0][D * W +		// Relevant semaphore representation
+					 row * WIDTH +	// Current row of representation
+					 i]				// Current char on row
+			);
 	}
 }
 
-void t() // Prints a row of characters for a flagman.
+void writeRowSegments(char row)
 {
 	D = q[g];
-	x = 0;
-	b();
+	writeSegmentChars(row);
 
 	putchar(' ');
 
-	if (++q < (r[1] < Y ? r[1] : Y))
+	if (++q < (remainingSemaphores < WIDTH ? remainingSemaphores : WIDTH))
 	{
-		t();
+		writeRowSegments(row);
 	}
 }
 
-void R() // Writes a row of characters.
+void writeRows(char row)
 {
 	q = 0;
-	t();
+	writeRowSegments(row);
 
 	putchar('\n');
 
-	if (++r[2] < N)
+	if (++row < HEIGHT)
 	{
-		R();
+		writeRows(row);
 	}
 }
 
-void O()
+void writeSemaphores()
 {
-	r[2] = 0;
-	R();
+	writeRows(0);
 	putchar('\n');
 
-	if (r[1] -= q)
+	if (remainingSemaphores -= q)
 	{
 		g += q;
-		O();
+		writeSemaphores();
 	}
 }
 
@@ -170,22 +167,21 @@ void C() // Gets user input and sets up input representation, then writes to scr
 		J = K[1];
 
 		g = K[2];
-		B();
-
+		parseInput();
 		if (!r[0])
 		{
 			*g++ = 0;
 		}
-
 		r[0] = 1;
 
-		r[1] = g - K[2];
+		remainingSemaphores = g - K[2];
+
 
 		g = K[2];
 
-		if (r[1])
+		if (remainingSemaphores)
 		{
-			O();
+			writeSemaphores();
 		}
 
 		C();
@@ -197,17 +193,17 @@ int main()
 	A = 0;
 	J = K[0];
 	W = 32;
-	N = 4;
-	Y = W - N;
+	Y = W - HEIGHT;
 	q = Y;
 	Q = T + q;
-	M[1] = Q + N;
+	M[1] = Q + HEIGHT;
 	k = M[1] + 2;
 	F = k + 7;
 	M[0] = F + 7;
 	l();
 
 	r[0] = 1;
-	Y = N << 1;
+
+	// Everything until here is just initial setup.
 	C();
 }
