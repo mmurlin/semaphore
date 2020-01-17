@@ -112,15 +112,10 @@ void B() // Likely sets up each flagman
 	}
 }
 
-void j() // Writes a single character.
-{
-	putchar(A);
-}
-
 void b() // Writes each character for a given flagman.
 {
 	A = K[0][D*W+r[2]*Y+x];
-	j();
+	putchar(A);
 
 	if (++x < Y)
 	{
@@ -134,8 +129,7 @@ void t() // Prints a row of characters for a flagman.
 	x = 0;
 	b();
 
-	A = ' ';
-	j();
+	putchar(' ');
 
 	if (++q < (r[1] < Y ? r[1] : Y))
 	{
@@ -148,8 +142,7 @@ void R() // Writes a row of characters.
 	q = 0;
 	t();
 
-	A = '\n';
-	j();
+	putchar('\n');
 
 	if (++r[2] < N)
 	{
@@ -161,7 +154,7 @@ void O()
 {
 	r[2] = 0;
 	R();
-	j();
+	putchar('\n');
 
 	if (r[1] -= q)
 	{
