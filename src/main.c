@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+typedef int bool;
+
 #define HEIGHT		4
 #define WIDTH		8
 #define R_LEN		32
@@ -14,8 +16,8 @@ char *T="IeJKLMaYQCE]jbZRskc[SldU^V\\X\\|/_<[<:90!\"$434-./2>]s";
 char K[3][1000];
 char *F;
 char x;
-char A;
-char *M[2];
+bool A;
+char *M;
 char *J;
 char r[4];
 char *g;
@@ -53,20 +55,28 @@ void generateSkeleton(char *semaphores)
 
 void placeFlags()
 {
+	// A determines if the iteration is for the left or right hand side.
+	// T is a specific sequence of values that makes things more difficult.
+	// Q, F, k, and M are pointers along T.
+	// x is the value used to actually decide what to do based on values in T.
+	// J is a pointer to the current flagdude.
+
 	if (!A)
 	{
 		generateSkeleton(J);
 	}
 
 	x = 7 & (*T >> A * 3);
-	J[(F[x]-R_LEN-x)^A*7] = Q[x&3] ^ A * M[0][2+(x&1)];
-	g = J + ((x[k] - R_LEN) ^ A * 7) - A;
+
+	// Adds arms.
+	J[(F[x]-R_LEN-x)^A*7] = Q[x&3] ^ A * M[2+(x&1)];
+	// Adds flags.
+	g = J + ((k[x] - R_LEN) ^ A * 7) - A;
+	g[0] = (x & 1) ? '[' : '<';
+	g[1] = (x & 1) ? ']' : '>';
 
 	T += A;
-	g[0] = M[1][x&1];
-	g[1] = M[0][x&1];
-
-	if (A ^= 1)
+	if (A = !A)
 	{
 		placeFlags();
 		J += R_LEN;
@@ -191,10 +201,9 @@ int main()
 	A = 0;
 	J = K[0];
 	Q = T + CHARSET_LEN;
-	M[1] = Q + HEIGHT;
-	k = M[1] + 2;
+	k = Q + HEIGHT + 2;
 	F = k + 7;
-	M[0] = F + 7;
+	M = F + 7;
 	initialiseRepresentations();
 
 	// Everything until here is just initial setup.
