@@ -32,24 +32,27 @@ char remainingSemaphores;
 
 void generateSkeleton(char *semaphores)
 {
-	// TODO I feel bad about removing this, I don't want to change how the program fundamentally works to this degree. I will probably rewrite this function.
-	// x = 0;
-	// g = J;
-	// while (x < R_LEN)
-	// {
-	//	r[0] = ' ';
-	//	r[1] = x + 1 + CHARSET_LEN;
-	//	printf("%c	", r[1]);
-	//	r[2] = *Q + 2;
-	//	r[3] = M[1-(x&1)][1];
+	/* TODO I feel bad about removing this, I don't want to change how the program fundamentally works to this degree. I will probably rewrite this function. */
+	/*
+		x = 0;
+		g = J;
+		while (x < R_LEN)
+		{
+		   r[0] = ' ';
+		   r[1] = x + 1 + CHARSET_LEN;
+		   printf("%c	", r[1]);
+		   r[2] = *Q + 2;
+		   r[3] = M[1-(x&1)][1];
 
-	//	printf("%i:	%i\n", x, (x&7));
-	//	*g++ = ((((x&7)-1)>>1)-1) ? ' ' : r[x>>3];
-	//	++x;
-	// }
+		   printf("%i:	%i\n", x, (x&7));
+		   *g++ = ((((x&7)-1)>>1)-1) ? ' ' : r[x>>3];
+		   ++x;
+		}
+	*/
 
 	char *s = semaphores;
-	for (char i = 0; i < R_LEN; ++i)
+	char i;
+	for (i = 0; i < R_LEN; ++i)
 	{
 		*s++ = skeleton[i];
 	}
@@ -57,11 +60,13 @@ void generateSkeleton(char *semaphores)
 
 void placeFlags()
 {
-	// A determines if the iteration is for the left or right hand side.
-	// T is a specific sequence of values that makes things more difficult.
-	// Q, F, k, and M are pointers along T.
-	// x is the value used to actually decide what to do based on values in T.
-	// J is a pointer to the current flagdude.
+	/*
+		A determines if the iteration is for the left or right hand side.
+		T is a specific sequence of values that makes things more difficult.
+		Q, F, k, and M are pointers along T.
+		x is the value used to actually decide what to do based on values in T.
+		J is a pointer to the current flagdude.
+	*/
 
 	if (!A)
 	{
@@ -70,9 +75,9 @@ void placeFlags()
 
 	x = 7 & (*T >> A * 3);
 
-	// Adds arms.
+	/* Adds arms. */
 	J[(F[x]-R_LEN-x)^A*7] = Q[x&3] ^ A * M[2+(x&1)];
-	// Adds flags.
+	/* Adds flags. */
 	g = J + ((k[x] - R_LEN) ^ A * 7) - A;
 	g[0] = (x & 1) ? '[' : '<';
 	g[1] = (x & 1) ? ']' : '>';
@@ -87,7 +92,8 @@ void placeFlags()
 
 void initialiseRepresentations()
 {
-	for (char i = CHARSET_LEN; i > 0; --i)
+	char i;
+	for (i = CHARSET_LEN; i > 0; --i)
 	{
 		placeFlags();
 	}
@@ -111,8 +117,10 @@ void parseInput()
 			ws = 1;
 		}
 
-		// Representation values are -2 as alphanumerics come after rest and
-		// numeral identifier in array.
+		/*
+			Representation values are -2 as alphanumerics come after rest and
+			numeral identifier in array.
+		*/
 		if (D >= 'A' && D <= 'Z')
 		{
 			ws = 0;
@@ -140,11 +148,12 @@ void parseInput()
 
 void writeSegmentChars(char row)
 {
-	for (char i = 0; i < WIDTH; ++i)
+	char i;
+	for (i = 0; i < WIDTH; ++i)
 	{
-		putchar(K[0][D * R_LEN +	// Relevant semaphore representation
-					 row * WIDTH +	// Current row of representation
-					 i]				// Current char on row
+		putchar(K[0][D * R_LEN +	/* Relevant semaphore representation */
+					 row * WIDTH +	/* Current row of representation */
+					 i]				/* Current char on row */
 			);
 	}
 }
@@ -212,7 +221,7 @@ int main()
 	M = F + 7;
 	initialiseRepresentations();
 
-	// Everything until here is just initial setup.
+	/* Everything until here is just initial setup. */
 	char input[80];
 	while (1)
 	{
