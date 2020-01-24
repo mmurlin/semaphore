@@ -7,6 +7,9 @@ typedef int bool;
 #define R_LEN		32
 #define CHARSET_LEN	28
 
+#define REST		0
+#define NUMERAL		1
+
 const char skeleton[32] =	"        "
 							"   ()   "
 							"   ^^   "
@@ -19,7 +22,6 @@ char x;
 bool A;
 char *M;
 char *J;
-char r[4];
 char *g;
 char *Q;
 char *k;
@@ -93,38 +95,42 @@ void initialiseRepresentations()
 
 void parseInput()
 {
+	bool ws = 1;
+
 	while (*J)
 	{
 		D = *J;
 
-		// TODO
-		if (D >= '0' && D <= '9' && (*g++=1),!(D-R_LEN&&D-9&&D-10&&D-13))
+		if (D >= '0' && D <= '9')
 		{
-			if (!*r)
-			{
-				*g++ = 0;
-				*r = 1;
-			}
+			*g++ = NUMERAL;
+		}
+		else if (!ws && (D == ' ' || D == '\t' || D == '\n' || D == '\r'))
+		{
+			*g++ = REST;
+			ws = 1;
 		}
 
+		// Representation values are -2 as alphanumerics come after rest and
+		// numeral identifier in array.
 		if (D >= 'A' && D <= 'Z')
 		{
-			*r = 0;
+			ws = 0;
 			*g++ = D - ('A'-2);
 		}
 		else if (D >= 'a' && D <= 'z')
 		{
-			*r = 0;
+			ws = 0;
 			*g++ = D - ('a'-2);
 		}
 		else if (D == '0')
 		{
-			*r = 0;
+			ws = 0;
 			*g++ = 12;
 		}
 		else if (D >= '1' && D <= '9')
 		{
-			*r = 0;
+			ws = 0;
 			*g++ = D - ('1'-2);
 		}
 
