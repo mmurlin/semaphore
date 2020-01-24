@@ -11,9 +11,9 @@ typedef int bool;
 #define NUMERAL		1
 
 const char skeleton[R_LEN] =	"        "
-								"   ()   "
-								"   ^^   "
-								"   ][   ";
+				"   ()   "
+				"   ^^   "
+				"   ][   ";
 
 char *T="IeJKLMaYQCE]jbZRskc[SldU^V\\X\\|/_<[<:90!\"$434-./2>]s";
 char K[3][1000];
@@ -61,11 +61,11 @@ void generateSkeleton(char *semaphores)
 void placeFlags()
 {
 	/*
-		A determines if the iteration is for the left or right hand side.
-		T is a specific sequence of values that makes things more difficult.
-		Q, F, k, and M are pointers along T.
-		x is the value used to actually decide what to do based on values in T.
-		J is a pointer to the current flagdude.
+		A determines if the iteration is for the left or right hand
+		side. T is a specific sequence of values that makes things more
+		difficult. Q, F, k, and M are pointers along T. x is the value
+		used to actually decide what to do based on values in T. J is a
+		pointer to the current flagdude.
 	*/
 
 	if (!A)
@@ -118,8 +118,8 @@ void parseInput()
 		}
 
 		/*
-			Representation values are -2 as alphanumerics come after rest and
-			numeral identifier in array.
+			Representation values are -2 as alphanumerics come
+			after rest and numeral identifier in array.
 		*/
 		if (D >= 'A' && D <= 'Z')
 		{
@@ -151,9 +151,9 @@ void writeSegmentChars(char row)
 	char i;
 	for (i = 0; i < WIDTH; ++i)
 	{
-		putchar(K[0][D * R_LEN +	/* Relevant semaphore representation */
-					 row * WIDTH +	/* Current row of representation */
-					 i]				/* Current char on row */
+		putchar(K[0][D * R_LEN +    /* Relevant semaphore representation */
+			row * WIDTH +	    /* Current row of representation */
+			i]		    /* Current char on row */
 			);
 	}
 }
