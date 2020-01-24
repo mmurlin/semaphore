@@ -10,10 +10,10 @@ typedef int bool;
 #define REST		0
 #define NUMERAL		1
 
-const char skeleton[32] =	"        "
-							"   ()   "
-							"   ^^   "
-							"   ][   ";
+const char skeleton[R_LEN] =	"        "
+								"   ()   "
+								"   ^^   "
+								"   ][   ";
 
 char *T="IeJKLMaYQCE]jbZRskc[SldU^V\\X\\|/_<[<:90!\"$434-./2>]s";
 char K[3][1000];
