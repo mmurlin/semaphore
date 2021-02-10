@@ -2,6 +2,7 @@
 
 typedef int bool;
 
+#define BUF_SIZE	80
 #define HEIGHT		4
 #define WIDTH		8
 #define R_LEN		32
@@ -25,36 +26,15 @@ char *J;
 char *g;
 char *Q;
 char *k;
-char q;
-char D;
 
 char remainingSemaphores;
 
 void generateSkeleton(char *semaphores)
 {
-	/* TODO I feel bad about removing this, I don't want to change how the program fundamentally works to this degree. I will probably rewrite this function. */
-	/*
-		x = 0;
-		g = J;
-		while (x < R_LEN)
-		{
-		   r[0] = ' ';
-		   r[1] = x + 1 + CHARSET_LEN;
-		   printf("%c	", r[1]);
-		   r[2] = *Q + 2;
-		   r[3] = M[1-(x&1)][1];
-
-		   printf("%i:	%i\n", x, (x&7));
-		   *g++ = ((((x&7)-1)>>1)-1) ? ' ' : r[x>>3];
-		   ++x;
-		}
-	*/
-
-	char *s = semaphores;
 	char i;
 	for (i = 0; i < R_LEN; ++i)
 	{
-		*s++ = skeleton[i];
+		*semaphores++ = skeleton[i];
 	}
 }
 
@@ -99,19 +79,17 @@ void initialiseRepresentations()
 	}
 }
 
-void parseInput()
+void parseInput(char *input)
 {
+	char *nextchar = input;
 	bool ws = 1;
-
-	while (*J)
+	while (*nextchar)
 	{
-		D = *J;
-
-		if (D >= '0' && D <= '9')
+		if (*nextchar >= '0' && *nextchar <= '9')
 		{
 			*g++ = NUMERAL;
 		}
-		else if (!ws && (D == ' ' || D == '\t' || D == '\n' || D == '\r'))
+		else if (!ws && (*nextchar == ' ' || *nextchar == '\t' || *nextchar == '\n' || *nextchar == '\r'))
 		{
 			*g++ = REST;
 			ws = 1;
@@ -121,61 +99,61 @@ void parseInput()
 			Representation values are -2 as alphanumerics come
 			after rest and numeral identifier in array.
 		*/
-		if (D >= 'A' && D <= 'Z')
+		if (*nextchar >= 'A' && *nextchar <= 'Z')
 		{
 			ws = 0;
-			*g++ = D - ('A'-2);
+			*g++ = *nextchar - ('A'-2);
 		}
-		else if (D >= 'a' && D <= 'z')
+		else if (*nextchar >= 'a' && *nextchar <= 'z')
 		{
 			ws = 0;
-			*g++ = D - ('a'-2);
+			*g++ = *nextchar - ('a'-2);
 		}
-		else if (D == '0')
+		else if (*nextchar == '0')
 		{
 			ws = 0;
 			*g++ = 12;
 		}
-		else if (D >= '1' && D <= '9')
+		else if (*nextchar >= '1' && *nextchar <= '9')
 		{
 			ws = 0;
-			*g++ = D - ('1'-2);
+			*g++ = *nextchar - ('1'-2);
 		}
 
-		J++;
+		++nextchar;
 	}
 }
 
-void writeSegmentChars(char row)
+void writeSegmentChars(char row, char idx)
 {
 	char i;
 	for (i = 0; i < WIDTH; ++i)
 	{
-		putchar(K[0][D * R_LEN +    /* Relevant semaphore representation */
+		putchar(K[0][idx * R_LEN +  /* Relevant semaphore representation */
 			row * WIDTH +	    /* Current row of representation */
 			i]		    /* Current char on row */
 			);
 	}
 }
 
-void writeRowSegments(char row)
+void writeRowSegments(char row, char *currentSemaphore)
 {
-	while (q < (remainingSemaphores < WIDTH ? remainingSemaphores : WIDTH))
+	while (*currentSemaphore < (remainingSemaphores < WIDTH ? remainingSemaphores : WIDTH))
 	{
-		D = g[q];
-		writeSegmentChars(row);
+		writeSegmentChars(row, g[*currentSemaphore]);
 
 		putchar(' ');
-		++q;
+		++(*currentSemaphore);
 	}
 }
 
-void writeRows(char row)
+void writeRows(char *currentSemaphore)
 {
+	char row = 0;
 	while (row < HEIGHT)
 	{
-		q = 0;
-		writeRowSegments(row);
+		*currentSemaphore = 0;
+		writeRowSegments(row, currentSemaphore);
 
 		putchar('\n');
 		++row;
@@ -184,22 +162,21 @@ void writeRows(char row)
 
 void writeSemaphores()
 {
+	char semaphoresWritten;
 	while (remainingSemaphores)
 	{
-		writeRows(0);
+		writeRows(&semaphoresWritten);
 		putchar('\n');
 
-		remainingSemaphores -= q;
-		g += q;
+		remainingSemaphores -= semaphoresWritten;
+		g += semaphoresWritten;
 	}
 }
 
-void writeAsSemaphores(char input[80])
+void writeAsSemaphores(char input[INPUT_MAX])
 {
-	J = input;
-
 	g = K[2];
-	parseInput();
+	parseInput(input);
 
 	remainingSemaphores = g - K[2];
 
@@ -222,10 +199,9 @@ int main()
 	initialiseRepresentations();
 
 	/* Everything until here is just initial setup. */
-	char input[80];
-	while (1)
+	char input[INPUT_MAX];
+	while (fgets(input, INPUT_MAX, stdin) != NULL)
 	{
-		fgets(input, 80, stdin);
 		writeAsSemaphores(input);
 	}
 }
